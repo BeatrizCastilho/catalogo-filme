@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Filme - DevFLIX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='js/loading.js') }}"></script>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <h1 class="logo">Dev<span>FLIX</span></h1>
+    </header>
+
+    <section class="form-container">
+        <h2>Editar Filme</h2>
+
+        <!-- 🔥 IMPORTANTE -->
+        <form method="POST" enctype="multipart/form-data" class="form-filme">
+            <input type="text" name="titulo" value="{{ filme.titulo }}" required>
+            <input type="text" name="genero" value="{{ filme.genero }}" required>
+
+            <!-- 👇 MOSTRA IMAGEM ATUAL -->
+            <p>Imagem atual:</p>
+            <img src="{{ filme.url_capa }}" width="150">
+
+            <!-- 👇 NOVA IMAGEM (OPCIONAL) -->
+            <input type="file" name="imagem" accept="image/png, image/jpeg">
+
+            <!-- 👇 GUARDA A ANTIGA -->
+            <input type="hidden" name="url_capa_antiga" value="{{ filme.url_capa }}">
+
+            <input type="date" name="ano" value="{{ filme.ano }}" required>
+
+            <button type="submit" class="btn-save">
+                Salvar Alterações
+            </button>
+        </form>
+
+        <a href="{{ url_for('listar_filmes') }}" class="btn-back">
+            ← Voltar ao catálogo
+        </a>
+    </section>
+
+    {% include 'components/loading.html' %}
+
+    <script>
+        window.addEventListener('load', () => {
+            Loading.attachToForms('Atualizando banco de dados...');
+            Loading.attachToLinks('.btn-back', 'Voltando para o catálogo...');
+        });
+    </script>
+</body>
+
+</html>
